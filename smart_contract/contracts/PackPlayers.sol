@@ -5,6 +5,7 @@ import "../node_modules/@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "../node_modules/@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 
+
 contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     //vrf initialization
