@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../node_modules/@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
-import "../node_modules/@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
-
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 
 contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
