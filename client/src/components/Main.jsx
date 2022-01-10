@@ -1,5 +1,5 @@
 import { PackPlayersContext } from "../context/PackPlayersContext"
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { BalancesContext } from "../context/BalancesContext"
 import { ethers } from 'ethers'
 
@@ -9,6 +9,8 @@ const { ethereum } = window
 
 
 const Main = () => {
+    const [player, setPlayer] = useState('')
+
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
     const { currentLinkBalance, currentKethBalance, getBalances } = useContext(BalancesContext)
 
@@ -17,8 +19,10 @@ const Main = () => {
     const packPlayersContract = new ethers.Contract(contractAddress, contractABI, signer)
 
     //Contract interaction
-    const buyPlayer = () => {
+    const buyPlayer = async () => {
         packPlayersContract.buy(currentAccount)
+        const packed_player = await packPlayersContract.player(currentAccount)
+        setPlayer(packed_player)
     }
 
     return(
@@ -40,7 +44,9 @@ const Main = () => {
                     <p>Your KETH balance: {currentKethBalance}</p>
                     </>
                 )}
-                
+                {player && (
+                    <p>{player}</p>
+                )}
             </div>
             </div>
         </>
