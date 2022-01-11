@@ -7,7 +7,7 @@ import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
 
-    //vrf initialization
+    //vrf init
     uint256 private constant ROLL_IN_PROGRESS = 42;
     bytes32 private s_keyHash;
     uint256 private s_fee;
@@ -68,5 +68,9 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     function buy(address roller) public payable {
         value = msg.value;
         rollDice(roller);
+    }
+
+    function clearPackedPlayers(address owner) public{
+        delete s_results[owner];
     }
 }
