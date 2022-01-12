@@ -13,19 +13,19 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     uint256 private s_fee;
     mapping(bytes32 => address) private s_rollers;
     mapping(address => uint256) private s_results;
+    mapping(address => string[]) public holdings;
     uint256 public value;
-
 
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
 
 
     //VRF constructor
-    constructor(address vrfCoordinator, address link, bytes32 keyHash, uint256 fee)
-        VRFConsumerBase(vrfCoordinator, link)
+    constructor()
+        VRFConsumerBase(0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, 0xa36085F69e2889c224210F603D836748e7dC0088)
     {
-        s_keyHash = keyHash;
-        s_fee = fee;
+        s_keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
+        s_fee = 100000000000000000;
     }
 
     //Roll random functions
@@ -44,26 +44,41 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
         emit DiceRolled(requestId, roller);
     }
 
+    function expand(uint256 randomValue, uint256 n) public pure returns (uint256[] memory expandedValues) {
+        expandedValues = new uint256[](n);
+        for (uint256 i = 0; i < n; i++) {
+            expandedValues[i] = uint256(keccak256(abi.encode(randomValue, i))) % 20 + 1;
+        }
+        return expandedValues;
+    }
+
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
-        uint256 d20Value = randomness % 10 + 1;
+        uint256 d20Value = randomness % 20 + 1;
         s_results[s_rollers[requestId]] = d20Value;
         emit DiceLanded(requestId, d20Value);
     }
 
     //Player function
-    function player(address owner) public view returns (string memory) {
+    function player(address owner) public returns (string[] memory) {
         require(s_results[owner] != 0, "Dice not rolled");
         require(s_results[owner] != ROLL_IN_PROGRESS, "Roll in progress");
-        return getPlayer(s_results[owner]);
+        return getPlayer(s_results[owner], owner);
     }
     
     //getPlayer
-    function getPlayer(uint256 id) private pure returns (string memory) {
-    string[10] memory playerNames = ['LeBron James', 'Kevin Durant', 'Kawhi Leonard', 
-                                        'Ben Simmons', 'Alperen Sengun', 'Joel Embiid', 'Tyrese Maxey', 
-                                        'Lonzo Ball', 'Lamelo Ball', 'LaVar Ball'];
-        return playerNames[id - 1];
-    }
+    function getPlayer(uint256 rand, address owner) internal returns (string[] memory) {
+        string[20] memory playerNames = ['LeBron James', 'Kevin Durant', 'Kawhi Leonard', 
+                                            'Ben Simmons', 'Alperen Sengun', 'Joel Embiid', 'Tyrese Maxey', 
+                                            'Lonzo Ball', 'Lamelo Ball', 'LaVar Ball', 'Tyrese Haliburton',
+                                            'Robert Williams III', 'Kevin Porter Jr.', 'Jaren Jackson Jr.',
+                                            'Evan Mobley', 'Cade Cunningham', 'Jalen Green', 'Scottie Barnes',
+                                            'Anthony Edwards', 'Jalen Suggs'];
+        uint256[] memory expanded = expand(rand, 5);
+        for(uint256 i = 0; i < expanded.length; i++){
+            holdings[owner].push(playerNames[expanded[i] - 1]);
+        }
+        return holdings[owner];
+        }
 
     function buy(address roller) public payable {
         value = msg.value;
