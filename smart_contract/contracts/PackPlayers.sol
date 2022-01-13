@@ -14,7 +14,10 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     mapping(bytes32 => address) private s_rollers;
     mapping(address => uint256) private s_results;
     mapping(address => string[]) public holdings;
-    uint256 public value;
+    uint256 private value;
+    mapping(uint => bool) private exists;
+
+
 
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
@@ -44,10 +47,22 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
         emit DiceRolled(requestId, roller);
     }
 
-    function expand(uint256 randomValue, uint256 n) public pure returns (uint256[] memory expandedValues) {
+    function duplicateFinder(uint256 intermediate, uint256[] memory expandedValues, uint256 i) internal {
+        if(exists[intermediate] == false){
+            expandedValues[i] = intermediate;
+            exists[intermediate] = true;
+        } else {
+            intermediate += 1 % 20;
+            duplicateFinder(intermediate, expandedValues, i);
+        }
+    }
+
+    function expand(uint256 randomValue, uint256 n) internal returns (uint256[] memory expandedValues) {
         expandedValues = new uint256[](n);
         for (uint256 i = 0; i < n; i++) {
-            expandedValues[i] = uint256(keccak256(abi.encode(randomValue, i))) % 20 + 1;
+            uint256 intermediate;
+            intermediate = uint256(keccak256(abi.encode(randomValue, i))) % 20 + 1;
+            duplicateFinder(intermediate, expandedValues, i);
         }
         return expandedValues;
     }
