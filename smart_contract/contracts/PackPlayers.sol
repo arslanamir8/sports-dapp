@@ -47,13 +47,13 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
         emit DiceRolled(requestId, roller);
     }
 
-    function duplicateFinder(uint256 intermediate, uint256[] memory expandedValues, uint256 i) internal {
+    function duplicatefinder(uint256 intermediate, uint256[] memory expandedValues, uint256 i) internal {
         if(exists[intermediate] == false){
             expandedValues[i] = intermediate;
             exists[intermediate] = true;
         } else {
             intermediate += 1 % 20;
-            duplicateFinder(intermediate, expandedValues, i);
+            duplicatefinder(intermediate, expandedValues, i);
         }
     }
 
@@ -62,7 +62,7 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
         for (uint256 i = 0; i < n; i++) {
             uint256 intermediate;
             intermediate = uint256(keccak256(abi.encode(randomValue, i))) % 20 + 1;
-            duplicateFinder(intermediate, expandedValues, i);
+            duplicatefinder(intermediate, expandedValues, i);
         }
         return expandedValues;
     }
@@ -101,6 +101,10 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     }
 
     function clearPackedPlayers(address owner) public{
-        delete s_results[owner];
+        delete holdings[owner];
+    }
+
+    function getPlayers(address owner) public view returns (string[] memory) {
+        return holdings[owner];
     }
 }

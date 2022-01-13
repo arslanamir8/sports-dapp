@@ -9,7 +9,7 @@ const { ethereum } = window
 
 
 const Main = () => {
-    const [player, setPlayer] = useState('')
+    const [player, setPlayer] = useState()
 
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
     const { currentLinkBalance, currentKethBalance, getBalances } = useContext(BalancesContext)
@@ -17,13 +17,17 @@ const Main = () => {
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
     const packPlayersContract = new ethers.Contract(contractAddress, contractABI, signer)
-
+    
     //Contract interaction
     const buyPlayer = async () => {
-        packPlayersContract.buy(currentAccount)
-        const packed_player = await packPlayersContract.player(currentAccount)
-        setPlayer(packed_player)
+        await packPlayersContract.buy(currentAccount)
+        await packPlayersContract.player(currentAccount)
+        const packed_player = await packPlayersContract.getPlayers(currentAccount)
+        await console.log(packed_player)
+        await setPlayer(packed_player)
     }
+
+    const listy = ['Hello', 'there']
 
     return(
         <>
@@ -44,9 +48,7 @@ const Main = () => {
                     <p>Your KETH balance: {currentKethBalance}</p>
                     </>
                 )}
-                {player && (
-                    <p>{player}</p>
-                )}
+                {player && (player)}
             </div>
             </div>
         </>
