@@ -9,7 +9,7 @@ const { ethereum } = window
 
 
 const Main = () => {
-    const [player, setPlayer] = useState()
+    const [player, setPlayer] = useState([])
 
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
     const { currentLinkBalance, currentKethBalance, getBalances } = useContext(BalancesContext)
@@ -18,16 +18,28 @@ const Main = () => {
     const signer = provider.getSigner()
     const packPlayersContract = new ethers.Contract(contractAddress, contractABI, signer)
     
+
     //Contract interaction
     const buyPlayer = async () => {
         await packPlayersContract.buy(currentAccount)
-        await packPlayersContract.player(currentAccount)
-        const packed_player = await packPlayersContract.getPlayers(currentAccount)
-        await console.log(packed_player)
-        await setPlayer(packed_player)
     }
 
-    const listy = ['Hello', 'there']
+    const showPlayers = async () => {
+        const players = await packPlayersContract.getPlayers(currentAccount)
+        await console.log(players)
+        await setPlayer(players)
+    }
+
+    packPlayersContract.once('DiceLanded', (requestId, d20Value) => {
+        packPlayersContract.player(currentAccount)
+    })
+
+    
+    //packPlayersContract.once('Packed', (owner) => {
+        //const packed_player = packPlayersContract.getPlayers(currentAccount)
+        //console.log(packed_player)
+        //setPlayer(packed_player)
+    //})
 
     return(
         <>
@@ -41,6 +53,7 @@ const Main = () => {
 
                 <input className="shadow appearance-none border rounded w-half py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Price"/>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={buyPlayer}>Buy Pack</button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={showPlayers}>Show players</button>
             <div>
                 {currentAccount && getBalances(), (
                     <>

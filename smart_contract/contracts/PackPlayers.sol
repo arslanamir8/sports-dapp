@@ -21,6 +21,7 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
+    event Packed(address owner);
 
 
     //VRF constructor
@@ -92,6 +93,7 @@ contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
         for(uint256 i = 0; i < expanded.length; i++){
             holdings[owner].push(playerNames[expanded[i] - 1]);
         }
+        emit Packed(owner);
         return holdings[owner];
         }
 
