@@ -35,11 +35,7 @@ const Main = () => {
     })
 
     
-    //packPlayersContract.once('Packed', (owner) => {
-        //const packed_player = packPlayersContract.getPlayers(currentAccount)
-        //console.log(packed_player)
-        //setPlayer(packed_player)
-    //})
+    packPlayersContract.once('Packed', (owner) => {showPlayers()})
     
     return(
         <>
