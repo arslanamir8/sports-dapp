@@ -40,7 +40,7 @@ const Main = () => {
         //console.log(packed_player)
         //setPlayer(packed_player)
     //})
-
+    
     return(
         <>
             <div>
@@ -52,8 +52,9 @@ const Main = () => {
                 )}
 
                 <input className="shadow appearance-none border rounded w-half py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Price"/>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={buyPlayer}>Buy Pack</button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={showPlayers}>Show players</button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={buyPlayer}>Buy Players</button>
+                <button className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4">Clear Players</button>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 mt-4" onClick={showPlayers}>Show Players</button>
             <div>
                 {currentAccount && getBalances(), (
                     <>

@@ -1,4 +1,4 @@
 import abi from './packPlayers.json'
 
 export const contractABI = abi.abi
-export const contractAddress = '0xe3573d2d2977231d98191758EB07696Cf6C7d3c7'
+export const contractAddress = '0x15628764335004389A4C5005fb8BE11C168c8385'
