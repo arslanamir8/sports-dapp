@@ -30,8 +30,9 @@ const Main = () => {
         await setPlayer(players)
     }
 
-    const clearPlayers = () => {
-        packPlayersContract.clearPackedPlayers(currentAccount)
+    const clearPlayers = async () => {
+        await packPlayersContract.clearPackedPlayers(currentAccount)
+        await setPlayer([])
     }
 
     packPlayersContract.once('DiceLanded', (requestId, d20Value) => {
