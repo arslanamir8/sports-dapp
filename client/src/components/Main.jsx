@@ -27,7 +27,9 @@ const Main = () => {
     const showPlayers = async () => {
         const players = await packPlayersContract.getPlayers(currentAccount)
         await console.log(players)
+        await console.log(players[0])
         await setPlayer(players)
+        await console.log(player[0])
     }
 
     const clearPlayers = async () => {
@@ -62,7 +64,13 @@ const Main = () => {
                     <p>Your KETH balance: {currentKethBalance}</p>
                     </>
                 )}
-                {player && (player)}
+                {player && player.map((guy) => (
+                    <div>
+                        <p>{guy}</p>
+                        <br></br>
+                        <br></br>
+                    </div>
+                ))}
             </div>
             </div>
         </>
