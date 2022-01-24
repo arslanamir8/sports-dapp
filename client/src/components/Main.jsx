@@ -27,9 +27,7 @@ const Main = () => {
     const showPlayers = async () => {
         const players = await packPlayersContract.getPlayers(currentAccount)
         await console.log(players)
-        await console.log(players[0])
         await setPlayer(players)
-        await console.log(player[0])
     }
 
     const clearPlayers = async () => {
