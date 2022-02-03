@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 
-contract packPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
+contract PackPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     //vrf init
     uint256 private constant ROLL_IN_PROGRESS = 42;
