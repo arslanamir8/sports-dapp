@@ -27,7 +27,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
                                             'Anthony Edwards', 'Jalen Suggs'];
     mapping(uint256 => string) public id_to_player;
     
-
+    //event capture
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
     event Packed(address owner);
@@ -64,6 +64,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         emit DiceRolled(requestId, roller);
     }
 
+    // ∃!Player ∀Player ∈ Packed Players
     function duplicatefinder(uint256 intermediate, uint256[] memory expandedValues, uint256 i) internal {
         if(exists[intermediate] == false){
             expandedValues[i] = intermediate;
@@ -74,6 +75,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         }
     }
 
+    //extrapolate n random numbers from a single chainlink request
     function expand(uint256 randomValue, uint256 n) internal returns (uint256[] memory expandedValues) {
         expandedValues = new uint256[](n);
         for (uint256 i = 0; i < n; i++) {
@@ -84,13 +86,14 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         return expandedValues;
     }
 
+    //chainlink vrfconsumer
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
         uint256 d20Value = randomness % 20;
         s_results[s_rollers[requestId]] = d20Value;
         emit DiceLanded(requestId, d20Value);
     }
 
-    //Player function
+    //Player return container
     function player(address owner) public returns (string[] memory) {
         require(s_results[owner] != 0, "Dice not rolled");
         require(s_results[owner] != ROLL_IN_PROGRESS, "Roll in progress");
@@ -113,15 +116,18 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         return holdings[owner];
         }
 
+    //buy a pack
     function buy(address roller) public payable {
         value = msg.value;
         rollDice(roller);
     }
 
+    //clear packed (only for dev)
     function clearPackedPlayers(address owner) public{
         delete holdings[owner];
     }
 
+    //get players view function
     function getPlayers(address owner) public view returns (string[] memory) {
         return holdings[owner];
     }
