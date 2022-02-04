@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 
-contract PackPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
+contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     //vrf init
     uint256 private constant ROLL_IN_PROGRESS = 42;
@@ -14,20 +15,35 @@ contract PackPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     mapping(bytes32 => address) private s_rollers;
     mapping(address => uint256) private s_results;
     mapping(address => string[]) public holdings;
-    uint256 private value;
     mapping(uint => bool) private exists;
+    uint256 public value;
 
-
+    //token id => player mapping
+    string[20] playerNamess = ['LeBron James', 'Kevin Durant', 'Kawhi Leonard', 
+                                            'Ben Simmons', 'Alperen Sengun', 'Joel Embiid', 'Tyrese Maxey', 
+                                            'Lonzo Ball', 'Lamelo Ball', 'LaVar Ball', 'Tyrese Haliburton',
+                                            'Robert Williams III', 'Kevin Porter Jr.', 'Jaren Jackson Jr.',
+                                            'Evan Mobley', 'Cade Cunningham', 'Jalen Green', 'Scottie Barnes',
+                                            'Anthony Edwards', 'Jalen Suggs'];
+    mapping(uint256 => string) public id_to_player;
+    
 
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
     event Packed(address owner);
 
 
-    //VRF constructor
-    constructor()
-        VRFConsumerBase(0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, 0xa36085F69e2889c224210F603D836748e7dC0088)
-    {
+    //mint machine
+    constructor() ERC1155("https://game.example/api/item/{id}.json") 
+    VRFConsumerBase(0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, 0xa36085F69e2889c224210F603D836748e7dC0088) {
+        for (uint256 i = 0; i < 20; i++) {
+            _mint(msg.sender, i, 100, "");
+        }
+
+        for (uint256 i = 0; i < playerNamess.length; i++) {
+            id_to_player[i] = playerNamess[i];
+        }
+
         s_keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
         s_fee = 100000000000000000;
     }
@@ -69,7 +85,7 @@ contract PackPlayers is VRFConsumerBase, ConfirmedOwner(msg.sender){
     }
 
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
-        uint256 d20Value = randomness % 20 + 1;
+        uint256 d20Value = randomness % 20;
         s_results[s_rollers[requestId]] = d20Value;
         emit DiceLanded(requestId, d20Value);
     }
