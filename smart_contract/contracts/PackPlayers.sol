@@ -111,6 +111,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         uint256[] memory expanded = expand(rand, 5);
         for(uint256 i = 0; i < expanded.length; i++){
             holdings[owner].push(playerNames[expanded[i] - 1]);
+            safeTransferFrom(address(this), msg.sender, expanded[i], 1, 0x00)
         }
         emit Packed(owner);
         return holdings[owner];
