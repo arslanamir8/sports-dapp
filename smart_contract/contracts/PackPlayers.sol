@@ -12,10 +12,8 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
     uint256 private constant ROLL_IN_PROGRESS = 1234567890;
     bytes32 private s_keyHash;
     uint256 private s_fee;
-    //dev
-    mapping(bytes32 => address) public s_rollers;
-    mapping(address => uint256) public s_results;
-
+    mapping(bytes32 => address) private s_rollers;
+    mapping(address => uint256) private s_results;
     mapping(address => string[]) public holdings;
     mapping(uint => bool) private exists;
     uint256 public value;
@@ -119,7 +117,7 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         rollDice(roller);
     }
 
-    //clear packed (only for dev)
+    //clear packed (dev)
     function clearPackedPlayers(address owner) public{
         delete holdings[owner];
     }
