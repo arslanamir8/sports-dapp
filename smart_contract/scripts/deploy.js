@@ -1,6 +1,6 @@
 const main = async () => {
 
-  const PackPlayers = await hre.ethers.getContractFactory("PackPlayers");
+  const PackPlayers = await hre.ethers.getContractFactory("packPlayers");
   const packPlayers = await PackPlayers.deploy();
 
   await packPlayers.deployed();

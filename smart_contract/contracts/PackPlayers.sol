@@ -6,14 +6,16 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 
-contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
+contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     //vrf init
-    uint256 private constant ROLL_IN_PROGRESS = 42;
+    uint256 private constant ROLL_IN_PROGRESS = 1234567890;
     bytes32 private s_keyHash;
     uint256 private s_fee;
-    mapping(bytes32 => address) private s_rollers;
-    mapping(address => uint256) private s_results;
+    //dev
+    mapping(bytes32 => address) public s_rollers;
+    mapping(address => uint256) public s_results;
+
     mapping(address => string[]) public holdings;
     mapping(uint => bool) private exists;
     uint256 public value;
@@ -32,14 +34,8 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
     event DiceLanded(bytes32 indexed requestId, uint256 indexed result);
     event Packed(address owner);
 
-
-    //mint machine
     constructor() ERC1155("https://game.example/api/item/{id}.json") 
     VRFConsumerBase(0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, 0xa36085F69e2889c224210F603D836748e7dC0088) {
-        for (uint256 i = 0; i < 20; i++) {
-            _mint(msg.sender, i, 100, "");
-        }
-
         for (uint256 i = 0; i < playerNamess.length; i++) {
             id_to_player[i] = playerNamess[i];
         }
@@ -64,7 +60,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         emit DiceRolled(requestId, roller);
     }
 
-    // ∃!Player ∀Player ∈ Packed Players
+    // ∃!Player ∀Player ∈PackedPlayers
     function duplicatefinder(uint256 intermediate, uint256[] memory expandedValues, uint256 i) internal {
         if(exists[intermediate] == false){
             expandedValues[i] = intermediate;
@@ -111,7 +107,7 @@ contract PackPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         uint256[] memory expanded = expand(rand, 5);
         for(uint256 i = 0; i < expanded.length; i++){
             holdings[owner].push(playerNames[expanded[i] - 1]);
-            safeTransferFrom(address(this), msg.sender, expanded[i], 1, 0x00)
+            _mint(msg.sender, expanded[i], 1, "");
         }
         emit Packed(owner);
         return holdings[owner];
