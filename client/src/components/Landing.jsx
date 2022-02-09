@@ -1,19 +1,37 @@
 const Player = ({bgColor, position}) => (
-    <div class={`${bgColor} selection:box-border h-50 w-48 grid grid-rows-3 grid-flow-col justify-center`}>
+    <div class={`${bgColor} box-border h-60 w-60 grid grid-rows-3 grid-flow-col justify-center`}>
         <div>{position}</div>
         <div>Name:</div>
         <div>Image:</div>
     </div>
 )
 
+//Figure out the slideshow of players effect
 const Landing = () => (
-    //SPLIT EACH BOX INTO A COMPONENT PIECE
-    <div>
-        <div>
-            <span class="flex place-content-center">Colosseum</span>
-            <span class="flex place-content-end">Connect Wallet</span>
+    <div class="box-border h-screen w-full bg-rose-200">
+        <span class="flex place-content-end p-2">Connect Wallet</span>
+        <span class="flex place-content-center p-2">Colosseum</span>
+        <div class="flex justify-center">
+            <Player position='PG' bgColor='bg-green-200'/>
+            <Player position='SG' bgColor='bg-blue-200'/>
+            <Player position='SF' bgColor='bg-orange-200'/>
+            <Player position='PF' bgColor='bg-yellow-200'/>
+            <Player position='C' bgColor='bg-purple-200'/>
         </div>
-        <div class="flex justify-center box-border h-80 w-full bg-rose-200">
+        <div class="flex place-content-center p-2">
+            Owned Players
+        </div>
+        <div class="flex justify-center">
+            <Player position='PG' bgColor='bg-green-200'/>
+            <Player position='SG' bgColor='bg-blue-200'/>
+            <Player position='SF' bgColor='bg-orange-200'/>
+            <Player position='PF' bgColor='bg-yellow-200'/>
+            <Player position='C' bgColor='bg-purple-200'/>
+            <Player position='PG' bgColor='bg-green-200'/>
+            <Player position='SG' bgColor='bg-blue-200'/>
+            <Player position='SF' bgColor='bg-orange-200'/>
+            <Player position='PF' bgColor='bg-yellow-200'/>
+            <Player position='C' bgColor='bg-purple-200'/>
             <Player position='PG' bgColor='bg-green-200'/>
             <Player position='SG' bgColor='bg-blue-200'/>
             <Player position='SF' bgColor='bg-orange-200'/>
