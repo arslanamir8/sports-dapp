@@ -8,7 +8,7 @@ import { contractABI, contractAddress } from '../constants/constants'
 const { ethereum } = window
 
 
-const Main = () => {
+const Store = () => {
     const [player, setPlayer] = useState([])
 
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
@@ -74,4 +74,4 @@ const Main = () => {
         </>
     )
 }
-export default Main
+export default Store
