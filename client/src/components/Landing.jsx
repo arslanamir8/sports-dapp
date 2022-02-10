@@ -19,7 +19,9 @@ const Player = ({bgColor, position, name}) => (
 )
 
 //Figure out the slideshow of players effect
+//Refactor all ethereum stuff needed across all pages, like the junk below
 const Landing = () => {
+    const [player, setPlayer] = useState([])
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
 
     const provider = new ethers.providers.Web3Provider(ethereum)
@@ -29,10 +31,14 @@ const Landing = () => {
     const showPlayers = async () => {
         const players = await packPlayersContract.getPlayers(currentAccount)
         await console.log(players)
+        await setPlayer(players)
     }
 
     return(
         <div class="box-border h-screen w-full bg-rose-200">
+            <>
+            {player && (<p className="flex place-content-end p-2 text-white">{player}</p>)}
+            </>
             <div className="flex place-content-end">
                 {currentAccount && (<p className="flex place-content-end p-2 text-white">User: {currentAccount}</p>)}
                 {!currentAccount && (
