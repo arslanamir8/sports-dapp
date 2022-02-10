@@ -12,7 +12,7 @@ const Player = ({bgColor, position, name}) => (
             {`${position}: ${name}`}
         </div>
         <div>
-            <img src="https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png" alt="LeBron James"/>
+            <img src={`./headshots/${name}.png`}/>            
         </div>
     </div>
 )
