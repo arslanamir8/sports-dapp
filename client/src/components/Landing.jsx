@@ -1,7 +1,6 @@
 import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
-import { useEffect } from "react"
 
 import { contractABI, contractAddress } from '../constants/constants'
 
@@ -23,6 +22,7 @@ const Player = ({bgColor, position, name}) => (
 const Landing = () => {
     const [player, setPlayer] = useState([])
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
+    const colors = ['bg-green-200', 'bg-blue-200', 'bg-orange-200', 'bg-yellow-200', 'bg-purple-200']
 
     const provider = new ethers.providers.Web3Provider(ethereum)
     const signer = provider.getSigner()
@@ -34,6 +34,10 @@ const Landing = () => {
         await setPlayer(players)
     }
 
+    const ownedPlayers = []
+    for (let i = 0; i < player.length; i++){
+        ownedPlayers.push(<Player position='PG' bgColor={colors[i]} name={player[i]}/>)
+    }
     return(
         <div class="box-border h-screen w-full bg-rose-200">
             <>
@@ -50,7 +54,7 @@ const Landing = () => {
             </div>
             <span className="flex place-content-center p-2">Colosseum</span>
             <div class="flex justify-center">
-                <Player position='PG' bgColor='bg-green-200' name='LeBron James'/>
+                <Player position='PG' bgColor='bg-green-200'/>
                 <Player position='SG' bgColor='bg-blue-200'/>
                 <Player position='SF' bgColor='bg-orange-200'/>
                 <Player position='PF' bgColor='bg-yellow-200'/>
@@ -60,14 +64,7 @@ const Landing = () => {
                 Owned Players
             </div>
             <div class="flex justify-center">
-                <Player position='PG' bgColor='bg-green-200'/>
-                <Player position='SG' bgColor='bg-blue-200'/>
-                <Player position='SF' bgColor='bg-orange-200'/>
-                <Player position='PF' bgColor='bg-yellow-200'/>
-                <Player position='C' bgColor='bg-purple-200'/>
-                <Player position='PG' bgColor='bg-green-200'/>
-                <Player position='SG' bgColor='bg-blue-200'/>
-                <Player position='SF' bgColor='bg-orange-200'/>
+                {ownedPlayers}
             </div>
         </div>   
     )
