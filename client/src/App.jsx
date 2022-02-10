@@ -17,8 +17,13 @@ const App = () => {
           </BalancesProvider>
           </PackPlayerProvider>
         }/>
-        <Route exact path='/' element={<Landing/>}>
-        </Route>
+        <Route exact path='/' element={
+          <PackPlayerProvider>
+          <BalancesProvider>
+            <Landing/>
+          </BalancesProvider>
+          </PackPlayerProvider>
+        }/>
       </Routes>
     </BrowserRouter>
   );
