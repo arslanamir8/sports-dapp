@@ -1,18 +1,21 @@
 import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
+import PlayerBase from '../constants/PlayerBase.json'
 
 import { contractABI, contractAddress } from '../constants/constants'
 
 const { ethereum } = window
 
-const Player = ({bgColor, position, name}) => (
+const Player = ({bgColor, position, name, img}) => (
     <div className={`${bgColor} box-border h-60 w-60 grid grid-rows-3 grid-flow-col justify-center`}>
         <div>
             {`${position}: ${name}`}
         </div>
         <div>
-            <img src={`./headshots/${name}.png`}/>            
+            {!img && (
+                <img src={`./player_base/${name}.png`}/>            
+            )}
         </div>
     </div>
 )
@@ -54,11 +57,11 @@ const Landing = () => {
             </div>
             <span className="flex place-content-center p-2">Colosseum</span>
             <div class="flex justify-center">
-                <Player position='PG' bgColor='bg-green-200'/>
-                <Player position='SG' bgColor='bg-blue-200'/>
-                <Player position='SF' bgColor='bg-orange-200'/>
-                <Player position='PF' bgColor='bg-yellow-200'/>
-                <Player position='C' bgColor='bg-purple-200'/>
+                <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
+                <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
+                <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
+                <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
+                <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
             </div>
             <div class="flex place-content-center p-2">
                 Owned Players

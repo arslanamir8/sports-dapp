@@ -1,0 +1,102 @@
+[
+    {
+        "name": "LeBron James",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png",
+        "position": ["SF", "PF"]
+    },
+    {
+        "name": "Kevin Durant",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png",
+        "position": ["SF", "PF"]
+    },
+    {
+        "name": "Kawhi Leonard",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/202695.png",
+        "position": ["SG", "SF"]
+    },
+    {
+        "name": "Ben Simmons",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627732.png",
+        "position": "PG"
+    },
+    {
+        "name": "Alperen Şengün",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630578.png",
+        "position": ["PF", "C"]
+    },
+    {
+        "name": "Joel Embiid",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/203954.png",
+        "position": "C"
+    },
+    {
+        "name": "Tyrese Maxey",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630178.png",
+        "position": ["PG", "SG"]
+    },
+    {
+        "name": "Lonzo Ball",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628366.png",
+        "position": "PG"
+    },
+    {
+        "name": "LaMelo Ball",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630163.png",
+        "position": "PG"
+    },
+    {
+        "name": "LaVar Ball",
+        "img": "https://m.media-amazon.com/images/M/MV5BNzQxNWJhYTAtMmUzMC00ZjQxLTk4MTAtMTAzMmI2ZjQxOTNhXkEyXkFqcGdeQXVyMTA2NjY2NzQ0._V1_.jpg",
+        "position": "PG"
+    },
+    {
+        "name": "Tyrese Haliburton",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630169.png",
+        "position": ["SG", "PG"]
+    },
+    {
+        "name": "Robert Williams III",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629057.png",
+        "position": ["PF", "C"]
+    },
+    {
+        "name": "Kevin Porter Jr.",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629645.png",
+        "position": ["PG", "SG"]
+    },
+    {
+        "name": "Jaren Jackson Jr.",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628991.png",
+        "position": ["PF", "C"]
+    },
+    {
+        "name": "Evan Mobley",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630596.png",
+        "position": ["PF", "C"]
+    },
+    {
+        "name": "Cade Cunningham",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630595.png",
+        "position": ["PG", "SG"]
+    },
+    {
+        "name": "Jalen Green",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630224.png",
+        "position": ["SG", "PG"]
+    },
+    {
+        "name": "Scottie Barnes",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630567.png",
+        "position": ["PF", "SF"]
+    },
+    {
+        "name": "Anthony Edwards",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630162.png",
+        "position": ["SG", "SF"]
+    },
+    {
+        "name": "Jalen Suggs",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630591.png",
+        "position": ["PG", "SG"]
+    }
+]
