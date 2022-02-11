@@ -2,24 +2,14 @@
 import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState } from 'react'
 import { BalancesContext } from "../context/BalancesContext"
-import { ethers } from 'ethers'
 import { Link } from 'react-router-dom'
-
-import { contractABI, contractAddress } from '../constants/constants'
-
-const { ethereum } = window
-
+import { contractAddress } from '../constants/constants'
 
 const Store = () => {
     const [player, setPlayer] = useState([])
 
-    const { connectWallet, currentAccount } = useContext(PackPlayersContext)
+    const { connectWallet, currentAccount, packPlayersContract } = useContext(PackPlayersContext)
     const { currentLinkBalance, currentKethBalance, getBalances } = useContext(BalancesContext)
-
-    const provider = new ethers.providers.Web3Provider(ethereum)
-    const signer = provider.getSigner()
-    const packPlayersContract = new ethers.Contract(contractAddress, contractABI, signer)
-    
 
     //Contract interaction
     const buyPlayer = async () => {

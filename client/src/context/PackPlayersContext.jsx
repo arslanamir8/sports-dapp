@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import { contractABI, contractAddress } from '../constants/constants'
 
 export const PackPlayersContext = React.createContext()
 
@@ -7,6 +9,10 @@ const { ethereum } = window
 
 export const PackPlayerProvider = ({ children }) => {
     const[currentAccount, setCurrentAccount] = useState('')
+
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner()
+    const packPlayersContract = new ethers.Contract(contractAddress, contractABI, signer)
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -45,7 +51,7 @@ export const PackPlayerProvider = ({ children }) => {
     }, [])
 
     return (
-        <PackPlayersContext.Provider value ={{ connectWallet, currentAccount }}>
+        <PackPlayersContext.Provider value ={{ connectWallet, currentAccount, ethereum, packPlayersContract }}>
             {children}
         </PackPlayersContext.Provider>
     )
