@@ -2,6 +2,7 @@ import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState } from 'react'
 import { BalancesContext } from "../context/BalancesContext"
 import { ethers } from 'ethers'
+import { Link } from 'react-router-dom'
 
 import { contractABI, contractAddress } from '../constants/constants'
 
@@ -44,6 +45,7 @@ const Store = () => {
     return(
         <>
             <div>
+                <Link to="/">Home</Link>
                 {currentAccount && (<p>Current Address: {currentAccount}</p>)}
                 <p>Pack Players contract address: {contractAddress}</p>
                 {!currentAccount && (
