@@ -14,18 +14,21 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
     uint256 private s_fee;
     mapping(bytes32 => address) private s_rollers;
     mapping(address => uint256) private s_results;
+    //packing
     mapping(address => string[]) public holdings;
+    mapping(address => mapping(uint256 => uint256)) public balances;
     mapping(uint => bool) private exists;
     uint256 public value;
 
     //token id => player mapping
     string[20] playerNamess = ['LeBron James', 'Kevin Durant', 'Kawhi Leonard', 
                                             'Ben Simmons', 'Alperen Sengun', 'Joel Embiid', 'Tyrese Maxey', 
-                                            'Lonzo Ball', 'Lamelo Ball', 'LaVar Ball', 'Tyrese Haliburton',
+                                            'Lonzo Ball', 'LaMelo Ball', 'James Harden', 'Tyrese Haliburton',
                                             'Robert Williams III', 'Kevin Porter Jr.', 'Jaren Jackson Jr.',
                                             'Evan Mobley', 'Cade Cunningham', 'Jalen Green', 'Scottie Barnes',
                                             'Anthony Edwards', 'Jalen Suggs'];
-    mapping(uint256 => string) public id_to_player;
+    mapping(string => uint256) private player_to_id;
+    mapping(uint256 => string) private id_to_player;
     
     //event capture
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
@@ -34,6 +37,9 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
 
     constructor() ERC1155("https://game.example/api/item/{id}.json") 
     VRFConsumerBase(0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, 0xa36085F69e2889c224210F603D836748e7dC0088) {
+        for (uint256 i = 0; i < playerNamess.length; i++) {
+            player_to_id[playerNamess[i]] = i;
+        }
         for (uint256 i = 0; i < playerNamess.length; i++) {
             id_to_player[i] = playerNamess[i];
         }
@@ -74,7 +80,7 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
         expandedValues = new uint256[](n);
         for (uint256 i = 0; i < n; i++) {
             uint256 intermediate;
-            intermediate = uint256(keccak256(abi.encode(randomValue, i))) % 20 + 1;
+            intermediate = uint256(keccak256(abi.encode(randomValue, i))) % 20;
             duplicatefinder(intermediate, expandedValues, i);
         }
         return expandedValues;
@@ -98,14 +104,15 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
     function getPlayer(uint256 rand, address owner) internal returns (string[] memory) {
         string[20] memory playerNames = ['LeBron James', 'Kevin Durant', 'Kawhi Leonard', 
                                             'Ben Simmons', 'Alperen Sengun', 'Joel Embiid', 'Tyrese Maxey', 
-                                            'Lonzo Ball', 'Lamelo Ball', 'LaVar Ball', 'Tyrese Haliburton',
+                                            'Lonzo Ball', 'LaMelo Ball', 'James Harden', 'Tyrese Haliburton',
                                             'Robert Williams III', 'Kevin Porter Jr.', 'Jaren Jackson Jr.',
                                             'Evan Mobley', 'Cade Cunningham', 'Jalen Green', 'Scottie Barnes',
                                             'Anthony Edwards', 'Jalen Suggs'];
         uint256[] memory expanded = expand(rand, 5);
         for(uint256 i = 0; i < expanded.length; i++){
-            holdings[owner].push(playerNames[expanded[i] - 1]);
+            holdings[owner].push(playerNames[expanded[i]]);
             _mint(msg.sender, expanded[i], 1, "");
+            balances[owner][player_to_id[playerNames[expanded[i]]]] = 1;
         }
         emit Packed(owner);
         return holdings[owner];
@@ -125,5 +132,13 @@ contract packPlayers is ERC1155, VRFConsumerBase, ConfirmedOwner(msg.sender){
     //get players view function
     function getPlayers(address owner) public view returns (string[] memory) {
         return holdings[owner];
+    }
+
+    function getPlayerToID(string memory guy) public view returns (uint256) {
+        return player_to_id[guy];
+    }
+
+    function getIDToPlayer(uint256 id) public view returns (string memory) {
+        return id_to_player[id];
     }
 }

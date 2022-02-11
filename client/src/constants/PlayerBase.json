@@ -45,9 +45,9 @@
         "position": "PG"
     },
     {
-        "name": "LaVar Ball",
-        "img": "https://m.media-amazon.com/images/M/MV5BNzQxNWJhYTAtMmUzMC00ZjQxLTk4MTAtMTAzMmI2ZjQxOTNhXkEyXkFqcGdeQXVyMTA2NjY2NzQ0._V1_.jpg",
-        "position": "PG"
+        "name": "James Harden",
+        "img": "https://cdn.nba.com/headshots/nba/latest/1040x760/201935.png",
+        "position": ["PG", "SG"]
     },
     {
         "name": "Tyrese Haliburton",
