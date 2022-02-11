@@ -1,3 +1,4 @@
+//CLEAN UP REFACTOR
 import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
@@ -8,15 +9,15 @@ import { contractABI, contractAddress } from '../constants/constants'
 const { ethereum } = window
 
 const Player = ({bgColor, position, name, img}) => (
-    <div className={`${bgColor} box-border h-60 w-60 grid grid-rows-3 grid-flow-col justify-center`}>
-        <div>
+    <div className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
+        <>
             {`${position}: ${name}`}
-        </div>
-        <div>
+        </>
+        <>
             {img && (
                 <img src={img}/>            
             )}
-        </div>
+        </>
     </div>
 )
 
@@ -53,6 +54,8 @@ const Landing = () => {
     }
 
     useEffect(() => {renderOwnedPlayers();}, [id])
+    useEffect(() => {showPlayers();}, [])
+
 
     const ownedPlayers = []
     let renderOwnedPlayers = () => {

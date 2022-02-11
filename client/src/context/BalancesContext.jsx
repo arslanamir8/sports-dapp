@@ -20,10 +20,8 @@ export const BalancesProvider = ({ children }) => {
         const accounts = await ethereum.request({ method: 'eth_accounts' })
         const account = accounts[0]
         const balance = await provider.getBalance(account)
-        console.log(ethers.utils.formatUnits(balance, 18))
         setCurrentKethBalance(ethers.utils.formatUnits(balance, 18))
         const linkBalance = await linkContract.balanceOf(contractAddress)
-        console.log(ethers.utils.formatUnits(linkBalance, 18))
         setCurrentLinkBalance(ethers.utils.formatUnits(linkBalance, 18))
     }
 
