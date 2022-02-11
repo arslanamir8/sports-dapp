@@ -13,8 +13,8 @@ const Player = ({bgColor, position, name, img}) => (
             {`${position}: ${name}`}
         </div>
         <div>
-            {!img && (
-                <img src={`./player_base/${name}.png`}/>            
+            {img && (
+                <img src={img}/>            
             )}
         </div>
     </div>
@@ -26,6 +26,7 @@ const Player = ({bgColor, position, name, img}) => (
 const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
+    const [ownedPlayer, setOwnedPlayer] = useState([])
 
     const { connectWallet, currentAccount } = useContext(PackPlayersContext)
     const colors = ['bg-green-200', 'bg-blue-200', 'bg-orange-200', 'bg-yellow-200', 'bg-purple-200']
@@ -39,8 +40,7 @@ const Landing = () => {
         console.log(players)
         const ids = []
         setTeam(players)
-        //const number = await packPlayersContract.getPlayerToID(players[0])
-        //await console.log(number.toNumber())
+        //holdings is mapping name to id
         await (async () => {
             for (const player of players){
                 var number = await packPlayersContract.getPlayerToID(player)
@@ -50,17 +50,19 @@ const Landing = () => {
             }
         })()
         setID(ids)
-        //console.log(id)
     }
 
-    useEffect(() => console.log(id), [id])
+    useEffect(() => {renderOwnedPlayers();}, [id])
 
     const ownedPlayers = []
-    for (let i = 0; i < team.length; i++){
-        ownedPlayers.push(<Player position='PG' bgColor={colors[i]} name={team[i]}/>)
+    let renderOwnedPlayers = () => {
+        for (let i = 0; i < team.length; i++){
+            ownedPlayers.push(<Player position={PlayerBase[id[i]]["position"]} bgColor={colors[i]} name={team[i]} key={i} img={PlayerBase[id[i]]["img"]}/>)
+            setOwnedPlayer(ownedPlayers)
+        }
     }
     return(
-        <div class="box-border h-screen w-full bg-rose-200">
+        <div className="box-border h-screen w-full bg-rose-200">
             <>
             {team && (<p className="flex place-content-end p-2 text-white">{team}</p>)}
             </>
@@ -75,18 +77,18 @@ const Landing = () => {
             </div>
             <Link to="/Store">Store</Link>
             <span className="flex place-content-center p-2">Colosseum</span>
-            <div class="flex justify-center">
+            <div className="flex justify-center">
                 <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
                 <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
                 <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
                 <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
                 <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
             </div>
-            <div class="flex place-content-center p-2">
+            <div className="flex place-content-center p-2">
                 Owned Players
             </div>
-            <div class="flex justify-center">
-                {ownedPlayers}
+            <div className="flex justify-center">
+                {ownedPlayer}
             </div>
         </div>   
     )
