@@ -17,6 +17,16 @@ const Player = ({bgColor, position, name, img}) => (
     </div>
 )
 
+const Board = () => (
+    <div className="flex justify-center">
+        <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
+        <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
+        <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
+        <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
+        <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
+    </div>
+)
+
 //Figure out the slideshow of players effect
 //Refactor all ethereum stuff needed across all pages, like the junk below
 //Check out the second usestate, probably overkill for prod
@@ -57,24 +67,18 @@ const Landing = () => {
         <div className="box-border h-screen w-full bg-rose-200">
             <div className="flex place-content-end">
                 {currentAccount ? 
-                    (<p className="flex place-content-end p-2 text-white">User: {currentAccount}</p>) 
-                :
+                    (<p className="flex place-content-end p-2 text-white bg-red-200 hover:bg-red-300 font-bold py-2 px-4 rounded">User: {currentAccount}</p>) 
+                    :
                     (
-                    <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
-                    onClick={connectWallet}>Connect Wallet</button>
+                        <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
+                        onClick={connectWallet}>Connect Wallet</button>
                     )}
             <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
                     onClick={showPlayers}>Show Players</button>
             </div>
-            <Link to="/Store">Store</Link>
+            <Link className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" to="/Store">Store</Link>
             <span className="flex place-content-center p-2">Colosseum</span>
-            <div className="flex justify-center">
-                <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
-                <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
-                <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
-                <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
-                <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
-            </div>
+            <Board/>
             <div className="flex place-content-center p-2">
                 Owned Players
             </div>
