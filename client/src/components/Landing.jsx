@@ -77,9 +77,9 @@ const Landing = () => {
                     onClick={showPlayers}>Show Players</button>
             </div>
             <Link className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" to="/Store">Store</Link>
-            <span className="flex place-content-center p-2">Colosseum</span>
+            <p className="flex place-content-center bg-red-200 text-white font-bold py-2 px-4 rounded p-2">Colosseum</p>
             <Board/>
-            <div className="flex place-content-center p-2">
+            <div className="flex place-content-center bg-red-200 text-white font-bold py-2 px-4 rounded p-2">
                 Owned Players
             </div>
             <div className="flex justify-center">
