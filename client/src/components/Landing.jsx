@@ -39,7 +39,6 @@ const Landing = () => {
 
     const showPlayers = async () => {
         const players = await packPlayersContract.getPlayers(currentAccount)
-        console.log(players)
         const ids = []
         setTeam(players)
         await (async () => {
@@ -62,18 +61,20 @@ const Landing = () => {
             setOwnedPlayer(ownedPlayers)
         }
     }
-    
+
     return(
         <div className="box-border h-screen w-full bg-rose-200">
             <div className="flex place-content-end">
                 {currentAccount ? 
-                    (<p className="flex place-content-end p-2 text-white bg-red-200 hover:bg-red-300 font-bold py-2 px-4 rounded">User: {currentAccount}</p>) 
+                    (   
+                        <p className="flex place-content-end p-2 text-white bg-red-200 hover:bg-red-300 font-bold py-2 px-4 rounded">
+                        User: {currentAccount}</p>) 
                     :
                     (
                         <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
-                        onClick={connectWallet}>Connect Wallet</button>
-                    )}
-            <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
+                        onClick={connectWallet}>Connect Wallet</button>)
+                }
+                <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
                     onClick={showPlayers}>Show Players</button>
             </div>
             <Link className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" to="/Store">Store</Link>
