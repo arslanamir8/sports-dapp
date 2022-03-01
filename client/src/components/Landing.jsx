@@ -28,7 +28,6 @@ const Board = () => (
 )
 
 //Figure out the slideshow of players effect
-//Refactor all ethereum stuff needed across all pages, like the junk below
 //Check out the second usestate, probably overkill for prod
 const Landing = () => {
     const [team, setTeam] = useState([])
@@ -63,6 +62,7 @@ const Landing = () => {
             setOwnedPlayer(ownedPlayers)
         }
     }
+    
     return(
         <div className="box-border h-screen w-full bg-rose-200">
             <div className="flex place-content-end">
