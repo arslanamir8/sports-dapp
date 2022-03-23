@@ -28,7 +28,7 @@ const Board = () => (
 )
 
 //Figure out the slideshow of players effect
-//Check out the second usestate, probably overkill for prod
+//Check out the second usestate
 const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
