@@ -28,7 +28,7 @@ const Board = () => (
 )
 
 //Figure out the slideshow of players effect
-//Check out the second usestate, probably overkill for prod
+//Check out the second usestate
 const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
@@ -68,7 +68,7 @@ const Landing = () => {
                 {currentAccount ? 
                     (   
                         <p className="flex place-content-end p-2 text-white bg-red-200 hover:bg-red-300 font-bold py-2 px-4 rounded">
-                        User: {currentAccount}</p>) 
+                        User: {currentAccount}</p>)
                     :
                     (
                         <button className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" 
