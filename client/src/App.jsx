@@ -6,10 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-
-const App = () => {
-  
-  return (
+//This is ugly asf
+const App = () => (
     <BrowserRouter>
       <Routes>
         <Route exact path='/Store' element={
@@ -30,7 +28,6 @@ const App = () => {
         }/>
       </Routes>
     </BrowserRouter>
-  );
-}
+)
 
 export default App;
