@@ -3,19 +3,33 @@ import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState, useEffect } from 'react'
 import PlayerBase from '../constants/PlayerBase.json'
 import { Link } from 'react-router-dom'
+import { useDrag } from "react-dnd"
 
-const Player = ({bgColor, position, name, img}) => (
-    <div className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
-        <>
-            {`${position}: ${name}`}
-        </>
-        <>
-            {img && (
-                <img src={img}/>            
-            )}
-        </>
-    </div>
-)
+const Player = ({bgColor, position, name, img}) => {
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: "div",
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }))
+    return (
+            <div ref={drag} className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
+                <>
+                    {`${position}: ${name}`}
+                </>
+                <>
+                    {img && (
+                        <img src={img}/>            
+                    )}
+                </>
+                <>
+                    {isDragging && (
+                        <p>Dragging</p>
+                    )}
+                </>
+            </div>
+    )
+}
 
 const Board = () => (
     <div className="flex justify-center">
