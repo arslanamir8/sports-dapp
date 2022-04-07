@@ -3,11 +3,12 @@ import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState, useEffect } from 'react'
 import PlayerBase from '../constants/PlayerBase.json'
 import { Link } from 'react-router-dom'
-import { useDrag } from "react-dnd"
+import { useDrag, useDrop } from "react-dnd"
 
-const Player = ({bgColor, position, name, img}) => {
+const Player = ({ bgColor, position, name, img}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "div",
+        item: {id: name},
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -31,15 +32,15 @@ const Player = ({bgColor, position, name, img}) => {
     )
 }
 
-const Board = () => (
-    <div className="flex justify-center">
+const Board = React.forwardRef((props, ref) => (
+    <div className="flex justify-center" ref={ref}>
         <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
         <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
         <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
         <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
         <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
     </div>
-)
+))
 
 //Figure out the slideshow of players effect
 //Check out the second usestate
@@ -47,6 +48,20 @@ const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
     const [ownedPlayer, setOwnedPlayer] = useState([])
+    const [board, setBoard] = useState([])
+
+    const [{isOver}, drop] = useDrop(() => ({
+        accept: "div",
+        drop: (item) => addPlayerToBoard(item.id),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    }))
+
+    const addPlayerToBoard = (id) => {
+        console.log(id)
+    }
+
     const colors = ['bg-green-200', 'bg-blue-200', 'bg-orange-200', 'bg-yellow-200', 'bg-purple-200']
 
     const { connectWallet, currentAccount, packPlayersContract } = useContext(PackPlayersContext)
@@ -93,7 +108,7 @@ const Landing = () => {
             </div>
             <Link className="bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded p-2" to="/Store">Store</Link>
             <p className="flex place-content-center bg-red-200 text-white font-bold py-2 px-4 rounded p-2">Colosseum</p>
-            <Board/>
+            <Board ref={drop}/>
             <div className="flex place-content-center bg-red-200 text-white font-bold py-2 px-4 rounded p-2">
                 Owned Players
             </div>
