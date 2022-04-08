@@ -1,4 +1,5 @@
 //CLEAN UP REFACTOR
+//Absolutely disgusting
 import { PackPlayersContext } from "../context/PackPlayersContext"
 import React, { useContext, useState, useEffect } from 'react'
 import PlayerBase from '../constants/PlayerBase.json'
@@ -14,36 +15,36 @@ const Player = ({ bgColor, position, name, img}) => {
         }),
     }))
     return (
-            <div ref={drag} className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
-                <>
-                    {`${position}: ${name}`}
-                </>
-                <>
-                    {img && (
-                        <img src={img}/>            
-                    )}
-                </>
-                <>
-                    {isDragging && (
-                        <p>Dragging</p>
-                    )}
-                </>
-            </div>
+        <div ref={drag} className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
+            <>
+                {`${position}: ${name}`}
+            </>
+            <>
+                {img && (
+                    <img src={img}/>            
+                )}
+            </>
+            <>
+                {isDragging && (
+                    <p>Dragging</p>
+                )}
+            </>
+        </div>
     )
 }
 
-const Board = React.forwardRef((props, ref) => (
-    <div className="flex justify-center" ref={ref}>
-        <Player position='PG' bgColor='bg-green-200' name='' img={true}/>
-        <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>
-        <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>
-        <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>
-        <Player position='C' bgColor='bg-purple-200' name='' img={true}/>
-    </div>
-))
+const Board = React.forwardRef((props, ref) => {
+    const emptyFive = [<Player position='PG' bgColor='bg-green-200' name='' img={true}/>, <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>, <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>, <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>, <Player position='C' bgColor='bg-purple-200' name='' img={true}/>]
+    return (
+        <div className="flex justify-center" ref={ref}>
+            {emptyFive}
+        </div>
+        
+    )
+})
 
 //Figure out the slideshow of players effect
-//Check out the second usestate
+//Check out the second state
 const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
