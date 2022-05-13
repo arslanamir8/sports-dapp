@@ -6,7 +6,7 @@ import PlayerBase from '../constants/PlayerBase.json'
 import { Link } from 'react-router-dom'
 import { useDrag, useDrop } from "react-dnd"
 
-const Player = ({ bgColor, position, name, img}) => {
+const Player = ({ bgColor, name, img}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "div",
         item: {id: name},
@@ -16,9 +16,9 @@ const Player = ({ bgColor, position, name, img}) => {
     }))
     return (
         <div ref={drag} className={`${bgColor} box-content h-60 w-60 grid grid-rows-4 justify-center`}>
-            <>
-                {`${position}: ${name}`}
-            </>
+            <span className="flex justify-center">
+                {name}
+            </span>
             <>
                 {img && (
                     <img src={img}/>            
@@ -34,7 +34,7 @@ const Player = ({ bgColor, position, name, img}) => {
 }
 
 const Board = React.forwardRef((props, ref) => {
-    const emptyFive = [<Player position='PG' bgColor='bg-green-200' name='' img={true}/>, <Player position='SG' bgColor='bg-blue-200' name='' img={true}/>, <Player position='SF' bgColor='bg-orange-200' name='' img={true}/>, <Player position='PF' bgColor='bg-yellow-200' name='' img={true}/>, <Player position='C' bgColor='bg-purple-200' name='' img={true}/>]
+    const emptyFive = [<Player bgColor='bg-green-200' name='' img={true}/>, <Player bgColor='bg-blue-200' name='' img={true}/>, <Player bgColor='bg-orange-200' name='' img={true}/>, <Player bgColor='bg-yellow-200' name='' img={true}/>, <Player bgColor='bg-purple-200' name='' img={true}/>]
     return (
         <div className="flex justify-center" ref={ref}>
             {emptyFive}
@@ -87,7 +87,7 @@ const Landing = () => {
     const ownedPlayers = []
     let renderOwnedPlayers = () => {
         for (let i = 0; i < team.length; i++){
-            ownedPlayers.push(<Player position={PlayerBase[id[i]]["position"]} bgColor={colors[i]} name={team[i]} key={i} img={PlayerBase[id[i]]["img"]}/>)
+            ownedPlayers.push(<Player bgColor={colors[i]} name={team[i]} key={i} img={PlayerBase[id[i]]["img"]}/>)
             setOwnedPlayer(ownedPlayers)
         }
     }
