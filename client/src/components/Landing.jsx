@@ -33,13 +33,14 @@ const Player = ({ bgColor, name, img}) => {
     )
 }
 
+const emptyFive = [{key:'1', bgColor:'bg-green-200', name:'', img:true}, {key:'2', bgColor:'bg-blue-200', name:'', img:true }, {key:'3', bgColor:'bg-orange-200', name:'', img:true}, {key:'4', bgColor:'bg-yellow-200', name:'', img:true}, {key:'5', bgColor:'bg-purple-200', name:'', img:true}]
 const Board = React.forwardRef((props, ref) => {
-    const emptyFive = [<Player bgColor='bg-green-200' name='' img={true}/>, <Player bgColor='bg-blue-200' name='' img={true}/>, <Player bgColor='bg-orange-200' name='' img={true}/>, <Player bgColor='bg-yellow-200' name='' img={true}/>, <Player bgColor='bg-purple-200' name='' img={true}/>]
     return (
         <div className="flex justify-center" ref={ref}>
-            {emptyFive}
+            {emptyFive.map((player) => (
+                <Player key={player.key} bgColor={player.bgColor} name={player.name} img={player.img}/>
+            ))}
         </div>
-        
     )
 })
 
@@ -53,14 +54,16 @@ const Landing = () => {
 
     const [{isOver}, drop] = useDrop(() => ({
         accept: "div",
-        drop: (item) => addPlayerToBoard(item.id),
+        drop: (item) => addPlayerToBoard(item),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
     }))
 
-    const addPlayerToBoard = (id) => {
-        console.log(id)
+    const addPlayerToBoard = (item) => {
+        console.log(item.id)
+        emptyFive[0] = item
+        setBoard(emptyFive)
     }
 
     const colors = ['bg-green-200', 'bg-blue-200', 'bg-orange-200', 'bg-yellow-200', 'bg-purple-200']
