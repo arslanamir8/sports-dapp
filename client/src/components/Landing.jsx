@@ -50,7 +50,7 @@ const Landing = () => {
     const [team, setTeam] = useState([])
     const [id, setID] = useState([])
     const [ownedPlayer, setOwnedPlayer] = useState([])
-    const [board, setBoard] = useState([])
+    const [board, setBoard] = useState(emptyFive)
 
     const [{isOver}, drop] = useDrop(() => ({
         accept: "div",
@@ -61,9 +61,9 @@ const Landing = () => {
     }))
 
     const addPlayerToBoard = (item) => {
-        console.log(item.id)
-        emptyFive[0] = item
-        setBoard(emptyFive)
+        const startingFive = ownedPlayers.filter((player) => item.name == player.name)
+        setBoard((board) => [...board, startingFive[0]])
+        //emptyFive.push({key:item.id, bgColor:item.bgColor, name:item.id, img:item.img})
     }
 
     const colors = ['bg-green-200', 'bg-blue-200', 'bg-orange-200', 'bg-yellow-200', 'bg-purple-200']
@@ -90,7 +90,7 @@ const Landing = () => {
     const ownedPlayers = []
     let renderOwnedPlayers = () => {
         for (let i = 0; i < team.length; i++){
-            ownedPlayers.push(<Player bgColor={colors[i]} name={team[i]} key={i} img={PlayerBase[id[i]]["img"]}/>)
+            ownedPlayers.push({bgColor:colors[i], name:team[i], key:i, img:PlayerBase[id[i]]["img"]})
             setOwnedPlayer(ownedPlayers)
         }
     }
@@ -117,7 +117,9 @@ const Landing = () => {
                 Owned Players
             </div>
             <div className="flex justify-center">
-                {ownedPlayer}
+                {ownedPlayer.map((player) => (
+                <Player key={player.key} bgColor={player.bgColor} name={player.name} img={player.img}/>
+                ))}
             </div>
         </div>   
     )
