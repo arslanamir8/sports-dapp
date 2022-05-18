@@ -9,7 +9,7 @@ import { useDrag, useDrop } from "react-dnd"
 const Player = ({ bgColor, name, img}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "div",
-        item: {id: name},
+        item: {id: name}, //CHECK HERE so I can acess rest of things from player to recreate in the board
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -60,8 +60,18 @@ const Landing = () => {
         }),
     }))
 
+    const ownedPlayers = []
+    let renderOwnedPlayers = () => {
+        for (let i = 0; i < team.length; i++){
+            ownedPlayers.push({bgColor:colors[i], name:team[i], key:i, img:PlayerBase[id[i]]["img"]})
+            setOwnedPlayer(ownedPlayers)
+        }
+    }
+
     const addPlayerToBoard = (item) => {
         const startingFive = ownedPlayers.filter((player) => item.name == player.name)
+        console.log(ownedPlayers)
+        console.log(startingFive.length)
         setBoard((board) => [...board, startingFive[0]])
         //emptyFive.push({key:item.id, bgColor:item.bgColor, name:item.id, img:item.img})
     }
@@ -85,15 +95,6 @@ const Landing = () => {
 
     useEffect(() => {renderOwnedPlayers();}, [id])
     useEffect(() => {showPlayers();}, [])
-
-
-    const ownedPlayers = []
-    let renderOwnedPlayers = () => {
-        for (let i = 0; i < team.length; i++){
-            ownedPlayers.push({bgColor:colors[i], name:team[i], key:i, img:PlayerBase[id[i]]["img"]})
-            setOwnedPlayer(ownedPlayers)
-        }
-    }
 
     return(
         <div className="box-border h-screen w-full bg-rose-200">
